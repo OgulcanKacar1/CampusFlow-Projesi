@@ -1,4 +1,4 @@
 # CampusFlow-Projesi
 aaaa
 
-ogulcan düzelt
+ogulcan düzeltti
