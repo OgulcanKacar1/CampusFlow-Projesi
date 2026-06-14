@@ -1,4 +1,4 @@
 # CampusFlow-Projesi
 aaaa
 
-test commiti
+ege okumuş commit attı
