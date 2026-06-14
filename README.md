@@ -1,4 +1,4 @@
 # CampusFlow-Projesi
 aaaa
 
-ogulcan düzeltti
+ogulcan ilk commit t-9
