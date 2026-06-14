@@ -1,4 +1,4 @@
 # CampusFlow-Projesi
 aaaa
 
-ege okumuş commit attı
+ogulcan düzelt
