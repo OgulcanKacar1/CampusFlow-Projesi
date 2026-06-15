@@ -1,18 +1,6 @@
-function createSensorReadings() {
-  return [
-    { id: 'S-01', zone: 'A', occupied: true },
-    { id: 'S-02', zone: 'A', occupied: true },
-    { id: 'S-03', zone: 'B', occupied: false },
-  ];
-}
 
-function getSensorSnapshot(sensorReadings = createSensorReadings()) {
-  const occupiedCount = sensorReadings.filter((sensor) => sensor.occupied).length;
 
-  return {
-    campus: 'CampusFlow Park',
-    capturedAt: new Date().toISOString(),
-    occupiedCount,
+
     freeCount: sensorReadings.length - occupiedCount,
     sensors: sensorReadings,
   };
