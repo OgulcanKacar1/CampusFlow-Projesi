@@ -17,7 +17,7 @@ export default function ParkingDashboard() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>CampusFlow Park</Text>
-        <Text style={styles.subtitle}>Tolga Olguner RN Demo</Text>
+        <Text style={styles.subtitle}>Tolga Olguner RN Demo | T-21</Text>
       </View>
 
       <View style={styles.card}>
