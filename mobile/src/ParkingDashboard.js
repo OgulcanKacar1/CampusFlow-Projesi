@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 const demoStats = [
@@ -8,6 +8,11 @@ const demoStats = [
 ];
 
 export default function ParkingDashboard() {
+  useEffect(() => {
+    console.log('[T-21][RN Demo] Parking dashboard mounted');
+    console.log('[T-21][RN Demo] demo stats ready', demoStats);
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
