@@ -61,4 +61,5 @@ const port = process.env.PORT || 3001;
 
 server.listen(port, () => {
   console.log(`Parking API demo listening on port ${port}`);
+  console.log('[T-20][API Demo] branch update confirmed');
 });
