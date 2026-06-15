@@ -1,10 +1,12 @@
 const http = require('http');
 
-const parkingState = {
-  totalSpots: 40,
-  occupiedSpots: 17,
-  lastUpdated: new Date().toISOString(),
-};
+const {
+  createParkingState,
+  getOccupancySnapshot,
+  updateParkingOccupancy,
+} = require('./parkingService');
+
+const parkingState = createParkingState();
 
 function sendJson(response, statusCode, payload) {
   response.writeHead(statusCode, {
@@ -19,12 +21,7 @@ const server = http.createServer((request, response) => {
   }
 
   if (request.method === 'GET' && request.url === '/api/parking/occupancy') {
-    return sendJson(response, 200, {
-      totalSpots: parkingState.totalSpots,
-      occupiedSpots: parkingState.occupiedSpots,
-      availableSpots: parkingState.totalSpots - parkingState.occupiedSpots,
-      lastUpdated: parkingState.lastUpdated,
-    });
+    return sendJson(response, 200, getOccupancySnapshot(parkingState));
   }
 
   if (request.method === 'POST' && request.url === '/api/parking/occupancy') {
@@ -37,17 +34,18 @@ const server = http.createServer((request, response) => {
     request.on('end', () => {
       try {
         const body = chunks.length ? JSON.parse(Buffer.concat(chunks).toString('utf8')) : {};
-        if (typeof body.occupiedSpots === 'number') {
-          parkingState.occupiedSpots = body.occupiedSpots;
-        }
-        parkingState.lastUpdated = new Date().toISOString();
+        updateParkingOccupancy(parkingState, body.occupiedSpots);
 
         return sendJson(response, 200, {
           message: 'Occupancy updated for demo purposes.',
-          state: parkingState,
+          state: getOccupancySnapshot(parkingState),
         });
       } catch (error) {
-        return sendJson(response, 400, { error: 'Invalid JSON payload' });
+        const message = error instanceof RangeError || error instanceof TypeError
+          ? error.message
+          : 'Invalid JSON payload';
+
+        return sendJson(response, 400, { error: message });
       }
     });
 
@@ -59,7 +57,14 @@ const server = http.createServer((request, response) => {
 
 const port = process.env.PORT || 3001;
 
-server.listen(port, () => {
-  console.log(`Parking API demo listening on port ${port}`);
-  console.log('[T-20][API Demo] branch update confirmed');
-});
+if (require.main === module) {
+  server.listen(port, () => {
+    console.log(`Parking API demo listening on port ${port}`);
+    console.log('[T-20][API Demo] branch update confirmed');
+  });
+}
+
+module.exports = {
+  sendJson,
+  server,
+};
