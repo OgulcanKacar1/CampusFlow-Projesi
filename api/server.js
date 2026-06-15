@@ -14,7 +14,10 @@ function sendJson(response, statusCode, payload) {
 }
 
 const server = http.createServer((request, response) => {
+  console.log(`[T-20][API Demo] ${request.method} ${request.url}`);
+
   if (request.method === 'GET' && request.url === '/health') {
+    console.log('[T-20][API Demo] health check served');
     return sendJson(response, 200, { status: 'ok', service: 'parking-api-demo' });
   }
 
@@ -41,6 +44,11 @@ const server = http.createServer((request, response) => {
           parkingState.occupiedSpots = body.occupiedSpots;
         }
         parkingState.lastUpdated = new Date().toISOString();
+
+        console.log('[T-20][API Demo] occupancy updated', {
+          occupiedSpots: parkingState.occupiedSpots,
+          availableSpots: parkingState.totalSpots - parkingState.occupiedSpots,
+        });
 
         return sendJson(response, 200, {
           message: 'Occupancy updated for demo purposes.',
